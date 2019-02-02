@@ -1,0 +1,4 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.ko2ic.fluttergoogleadmanager">
+    <uses-permission android:name="android.permission.INTERNET"/>
+</manifest>
