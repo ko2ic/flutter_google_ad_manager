@@ -1,5 +1,5 @@
 ```
-import 'package:flutter/material.dart';
+mport 'package:flutter/material.dart';
 import 'package:flutter_google_ad_manager/flutter_google_ad_manager.dart';
 
 void main() => runApp(MyApp());
@@ -42,15 +42,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  DFPInterstitialAd interstitialAd;
-  DFPRewardedAd rewardedAd;
-  LifecycleEventHandler _lifecyncle;
+  DFPInterstitialAd _interstitialAd;
+  DFPRewardedAd _rewardedAd;
+  LifecycleEventHandler _lifecycle;
 
   @override
   void initState() {
     super.initState();
 
-    interstitialAd = DFPInterstitialAd(
+    _interstitialAd = DFPInterstitialAd(
       isDevelop: true,
       adUnitId: "XXXXXXXX",
       onAdLoaded: () {
@@ -64,15 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       onAdClosed: () {
         print('interstitialAd onAdClosed');
-        interstitialAd.load();
+        _interstitialAd.load();
       },
       onAdLeftApplication: () {
         print('interstitialAd onAdLeftApplication');
       },
     );
-    interstitialAd.load();
+    _interstitialAd.load();
 
-    rewardedAd = DFPRewardedAd(
+    _rewardedAd = DFPRewardedAd(
       isDevelop: true,
       adUnitId: "XXXXXXX",
       onAdLoaded: () {
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       onAdClosed: () {
         print('rewardedAd onAdClosed');
-        rewardedAd.load();
+        _rewardedAd.load();
       },
       onAdLeftApplication: () {
         print('rewardedAd onAdLeftApplication');
@@ -101,16 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
         print('rewardedAd onVideoCompleted');
       },
     );
-    rewardedAd.load();
-    _lifecyncle = LifecycleEventHandler(rewardedAd);
-    WidgetsBinding.instance.addObserver(_lifecyncle);
+    _rewardedAd.load();
+    _lifecycle = LifecycleEventHandler(_rewardedAd);
+    WidgetsBinding.instance.addObserver(_lifecycle);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(_lifecyncle);
-    interstitialAd.dispose();
-    rewardedAd.dispose();
+    WidgetsBinding.instance.removeObserver(_lifecycle);
+    _interstitialAd.dispose();
+    _rewardedAd.dispose();
     super.dispose();
   }
 
@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await rewardedAd.show();
+          await _rewardedAd.show();
           //await interstitialAd.show();
         },
         tooltip: '?',
