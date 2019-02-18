@@ -1,3 +1,8 @@
+## 0.6.2
+
+* Enhanced readme.
+* Modify example. (typo and so on.)
+
 ## 0.6.1
 
 * Bump compileSdkVersion
