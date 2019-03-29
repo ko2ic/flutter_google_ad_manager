@@ -115,6 +115,7 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
     }
     widget.onPlatformCompleted(_DFPBannerViewController(
       isDevelop: widget.isDevelop,
+      testDevices: widget.testDevices,
       adUnitId: widget.adUnitId,
       adSize: widget.adSize,
       onAdLoaded: widget.onAdLoaded,
