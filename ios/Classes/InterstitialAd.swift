@@ -81,7 +81,7 @@ extension InterstitialAd: GADInterstitialDelegate {
 
     /// Tells the delegate the interstitial is to be animated off the screen.
     func interstitialWillDismissScreen(_ ad: DFPInterstitial) {
-        interstitialAd = DFPInterstitial(adUnitID: ad.adUnitID)
+        interstitialAd = DFPInterstitial(adUnitID: ad.adUnitID!)
         interstitialAd?.delegate = self
     }
 
