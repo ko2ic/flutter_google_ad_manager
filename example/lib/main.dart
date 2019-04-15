@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: DFPBanner(
                     isDevelop: true,
                     testDevices: MyTestDevices(),
-                    adUnitId: 'XXXXXXXXX/XXXXXXXXX',
+                    adUnitId: '/XXXXXXXXX/XXXXXXXXX',
                     adSize: DFPAdSize.BANNER,
                     onAdLoaded: () {
                       print('Banner onAdLoaded');

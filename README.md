@@ -16,6 +16,10 @@ Add ```io.flutter.embedded_views_preview``` in info.plist
 <true/>
 ```
 
+Follow any additional instructions found here
+
+[Google Ad Manager Getting Started Guide](https://developers.google.com/ad-manager/mobile-ads-sdk/ios/quick-start#update_your_infoplist)
+
 ### Android
 
 Add ```com.google.android.gms.ads.AD_MANAGER_APP``` in AndroidManifest.xml
@@ -29,6 +33,9 @@ Add ```com.google.android.gms.ads.AD_MANAGER_APP``` in AndroidManifest.xml
     </application>
 </manifest>
 ```
+Follow any additional instructions found here
+
+[Google Ad Manager Getting Started Guide](https://developers.google.com/ad-manager/mobile-ads-sdk/android/quick-start#update_your_androidmanifestxml)
 
 # Banner Ads
 
@@ -38,7 +45,7 @@ Just write the ```DFPBanner``` widget in your favorite place.
 DFPBanner(
   isDevelop: true,
   testDevices: MyTestDevices(),
-  adUnitId: 'XXXXXXXXX/XXXXXXXXX',
+  adUnitId: '/XXXXXXXXX/XXXXXXXXX',
   adSize: DFPAdSize.BANNER,
   onAdLoaded: () {
     print('Banner onAdLoaded');
