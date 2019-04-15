@@ -118,7 +118,7 @@ If you really want to use it, you can use listener by bringing Plugin source to 
 # Interstitial Ads
 
 
-```load``` it and call the ```show``` method at the desired timing.
+Firstly ```load``` it and call the ```show``` method at the desired timing.
 
 ```dart
 DFPInterstitialAd _interstitialAd;
