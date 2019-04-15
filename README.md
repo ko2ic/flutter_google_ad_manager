@@ -175,7 +175,7 @@ Because of this, it can not be reloaded after closing, so it can not be displaye
 
 # Rewarded Ads
 
-```load``` it and call the ```show``` method at the desired timing.
+firstly ```load``` it and call the ```show``` method at the desired timing.
 
 ```dart
 DFPRewardedAd _rewardedAd;
