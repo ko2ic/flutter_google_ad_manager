@@ -1,3 +1,11 @@
+## 0.6.3+2
+
+* Update a Document.
+
+## 0.6.3
+
+* Fix to compilation error when Google-Mobile-Ads-SDK v7.42.2 or later on iOS.
+
 ## 0.6.2
 
 * Enhanced readme.
