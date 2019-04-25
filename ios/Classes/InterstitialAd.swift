@@ -65,34 +65,34 @@ class InterstitialAd: SwiftFlutterGoogleAdManagerPlugin {
 
 extension InterstitialAd: GADInterstitialDelegate {
     /// Tells the delegate an ad request succeeded.
-    func interstitialDidReceiveAd(_: DFPInterstitial) {
+    func interstitialDidReceiveAd(_ ad: GADInterstitial) {
         channel.invokeMethod("onAdLoaded", arguments: nil)
     }
 
     /// Tells the delegate an ad request failed.
-    func interstitial(_: DFPInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
+    func interstitial(_: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
         channel.invokeMethod("onAdFailedToLoad", arguments: ["errorCode": error.code])
     }
 
     /// Tells the delegate that an interstitial will be presented.
-    func interstitialWillPresentScreen(_: DFPInterstitial) {
+    func interstitialWillPresentScreen(_: GADInterstitial) {
         channel.invokeMethod("onAdOpened", arguments: nil)
     }
 
     /// Tells the delegate the interstitial is to be animated off the screen.
-    func interstitialWillDismissScreen(_ ad: DFPInterstitial) {
+    func interstitialWillDismissScreen(_ ad: GADInterstitial) {
         interstitialAd = DFPInterstitial(adUnitID: ad.adUnitID!)
         interstitialAd?.delegate = self
     }
 
     /// Tells the delegate the interstitial had been animated off the screen.
-    func interstitialDidDismissScreen(_: DFPInterstitial) {
+    func interstitialDidDismissScreen(_: GADInterstitial) {
         channel.invokeMethod("onAdClosed", arguments: nil)
     }
 
     /// Tells the delegate that a user click will open another app
     /// (such as the App Store), backgrounding the current app.
-    func interstitialWillLeaveApplication(_: DFPInterstitial) {
+    func interstitialWillLeaveApplication(_: GADInterstitial) {
         channel.invokeMethod("onAdLeftApplication", arguments: nil)
     }
 }
