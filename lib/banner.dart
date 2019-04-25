@@ -59,7 +59,7 @@ class DFPBanner extends StatelessWidget {
         onAdLeftApplication: onAdLeftApplication,
         onAdViewCreated: onAdViewCreated,
         onPlatformCompleted: (DFPBannerViewController controller) {
-          controller.load();
+          controller._init();
           if (onAdViewCreated != null) {
             onAdViewCreated(controller);
           }
@@ -67,6 +67,7 @@ class DFPBanner extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class _DFPBannerView extends StatefulWidget {
@@ -123,7 +124,7 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
     if (widget.onPlatformCompleted == null) {
       return;
     }
-    widget.onPlatformCompleted(DFPBannerViewController(
+    widget.onPlatformCompleted(DFPBannerViewController._internal(
       isDevelop: widget.isDevelop,
       testDevices: widget.testDevices,
       adUnitId: widget.adUnitId,
@@ -151,7 +152,7 @@ class DFPBannerViewController {
   final void Function() onAdLeftApplication;
   final void Function(DFPBannerViewController controller) onAdViewCreated;
 
-  DFPBannerViewController({
+  DFPBannerViewController._internal({
     @required this.isDevelop,
     this.testDevices,
     @required this.adUnitId,
@@ -167,7 +168,7 @@ class DFPBannerViewController {
 
   final MethodChannel _channel;
 
-  Future<void> load() async {
+  Future<void> _init() async {
     _channel.setMethodCallHandler((call) {
       switch (call.method) {
         case "onAdLoaded":
@@ -189,6 +190,14 @@ class DFPBannerViewController {
       }
     });
 
+    return _load();
+  }
+
+  Future<void> reload() async {
+    return _load();
+  }
+
+  Future<void> _load() {
     return _channel.invokeMethod('load', {
       "isDevelop": this.isDevelop,
       "testDevices": this.testDevices?.values,
