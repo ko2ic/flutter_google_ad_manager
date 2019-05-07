@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       onAdFailedToLoad: (errorCode) {
         print('rewardedAd onAdFailedToLoad: errorCode:$errorCode');
+        _showRewardedAdsLoadErrorDialog(context, errorCode);
       },
       onAdOpened: () {
         print('rewardedAd onAdOpened');
@@ -111,7 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('Banners',
+            Text(
+              'Banners',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -166,7 +168,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ));
               },
             ),
-            Text('Interstitial',
+            Text(
+              'Interstitial',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -179,7 +182,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 _interstitialAd.show();
               },
             ),
-            Text('Rewarded',
+            Text(
+              'Rewarded',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -247,6 +251,29 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: '?',
         child: Icon(Icons.add),
       ),*/
+    );
+  }
+
+  void _showRewardedAdsLoadErrorDialog(BuildContext context, int errorCode) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+            title: Text("Rewarded Ads Load Error"),
+            content: Text("error code: $errorCode"),
+            actions: <Widget>[
+              FlatButton(
+                  child: const Text('Cancel'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+              FlatButton(
+                  child: const Text('Reload'),
+                  onPressed: () {
+                    _rewardedAd.load();
+                    Navigator.pop(context);
+                  })
+            ],
+          ),
     );
   }
 }

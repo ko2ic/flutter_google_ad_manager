@@ -47,9 +47,7 @@ class _BannerPageState extends State<BannerPage> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.symmetric(vertical: 16.0),
-              decoration: new BoxDecoration(
-                  border:
-                      new Border.all(color: Theme.of(context).primaryColor)),
+              decoration: new BoxDecoration(border: new Border.all(color: Theme.of(context).primaryColor)),
               child: DFPBanner(
                 isDevelop: true,
                 testDevices: MyTestDevices(),
