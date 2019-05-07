@@ -1,3 +1,10 @@
+## 0.7.0
+
+* Implement onAdViewCreated callback.
+* Fix the bug that the other callback don't work.
+* Smart_banner works in landscape orientation.
+* Support AndroidX.
+
 ## 0.6.3+2
 
 * Update a Document.
