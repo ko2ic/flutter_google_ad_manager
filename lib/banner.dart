@@ -43,17 +43,31 @@ class DFPBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     var width = adSize.width;
     var height = adSize.height;
     if (adSize.width == DFPAdSize.FULL_WIDTH) {
       width = MediaQuery.of(context).size.width;
-      if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      if (isPortrait) {
         height = 50;
       } else {
         height = 32;
       }
       // TODO iPad support
     }
+
+//    return OrientationBuilder(builder: (context, Orientation orientation) {
+//      var width = adSize.width;
+//      var height = adSize.height;
+//      if (adSize.width == DFPAdSize.FULL_WIDTH) {
+//        width = MediaQuery.of(context).size.width;
+//        if (orientation == Orientation.portrait) {
+//          height = 50;
+//        } else {
+//          height = 32;
+//        }
+//        // TODO iPad support
+//      }
 
     return SizedBox(
       width: width,
@@ -63,6 +77,7 @@ class DFPBanner extends StatelessWidget {
         testDevices: testDevices,
         adUnitId: adUnitId,
         adSize: adSize,
+        isPortrait: isPortrait,
         onAdLoaded: onAdLoaded,
         onAdFailedToLoad: onAdFailedToLoad,
         onAdOpened: onAdOpened,
@@ -85,6 +100,7 @@ class _DFPBannerView extends StatefulWidget {
   final TestDevices testDevices;
   final String adUnitId;
   final DFPAdSize adSize;
+  final bool isPortrait;
   final void Function() onAdLoaded;
   final void Function(int errorCode) onAdFailedToLoad;
   final void Function() onAdOpened;
@@ -98,6 +114,7 @@ class _DFPBannerView extends StatefulWidget {
     this.testDevices,
     @required this.adUnitId,
     @required this.adSize,
+    @required this.isPortrait,
     this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdOpened,
@@ -139,6 +156,7 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
       testDevices: widget.testDevices,
       adUnitId: widget.adUnitId,
       adSize: widget.adSize,
+      isPortrait: widget.isPortrait,
       onAdLoaded: widget.onAdLoaded,
       onAdFailedToLoad: widget.onAdFailedToLoad,
       onAdOpened: widget.onAdOpened,
@@ -155,6 +173,7 @@ class DFPBannerViewController {
   final TestDevices testDevices;
   final String adUnitId;
   final DFPAdSize adSize;
+  final bool isPortrait;
   final void Function() onAdLoaded;
   final void Function(int errorCode) onAdFailedToLoad;
   final void Function() onAdOpened;
@@ -167,6 +186,7 @@ class DFPBannerViewController {
     this.testDevices,
     @required this.adUnitId,
     @required this.adSize,
+    @required this.isPortrait,
     this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdOpened,
@@ -213,6 +233,7 @@ class DFPBannerViewController {
       "testDevices": this.testDevices?.values,
       "adUnitId": this.adUnitId,
       "adSizes": [this.adSize.toString()],
+      "isPortrait": this.isPortrait,
       "widths": [this.adSize.width],
       "heights": [this.adSize.height],
     });

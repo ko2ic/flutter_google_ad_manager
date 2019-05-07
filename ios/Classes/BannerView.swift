@@ -38,7 +38,9 @@ class BannerView: NSObject, FlutterPlatformView {
         let adSizesArgument = argument["adSizes"] as! [String]
         let widthsArgument = argument["widths"] as! [Int]
         let heightsArgument = argument["heights"] as! [Int]
-        let adSize = convertToAdSizes(adSizesArgument, widths: widthsArgument, heights: heightsArgument, result: result).first!
+        let isPortrait = argument["isPortrait"] as? Bool ?? true
+
+        let adSize = convertToAdSizes(adSizesArgument, widths: widthsArgument, heights: heightsArgument, isPortrait: isPortrait, result: result).first!
 
         let adUnitId = argument["adUnitId"] as! String
 
@@ -83,7 +85,7 @@ class BannerView: NSObject, FlutterPlatformView {
                                                      constant: 0)])
     }
 
-    private func convertToAdSizes(_ names: [String], widths: [Int], heights: [Int], result: @escaping FlutterResult) -> [GADAdSize] {
+    private func convertToAdSizes(_ names: [String], widths: [Int], heights: [Int], isPortrait: Bool, result: @escaping FlutterResult) -> [GADAdSize] {
         return names.enumerated().map { (index: Int, name: String) -> GADAdSize in
             switch name {
             case "BANNER":
@@ -97,7 +99,11 @@ class BannerView: NSObject, FlutterPlatformView {
             case "MEDIUM_RECTANGLE":
                 return kGADAdSizeMediumRectangle
             case "SMART_BANNER":
-                return kGADAdSizeSmartBannerPortrait // TODO: Portrait or Landscape
+                if isPortrait {
+                    return kGADAdSizeSmartBannerPortrait
+                } else {
+                    return kGADAdSizeSmartBannerLandscape
+                }
             case "CUSTOM":
                 return GADAdSizeFromCGSize(CGSize(width: widths[index], height: heights[index]))
             default:
@@ -120,7 +126,7 @@ extension BannerView: GADBannerViewDelegate {
         container.subviews.forEach { view in
             view.removeFromSuperview()
         }
-        //container = nil
+        // container = nil
         channel.invokeMethod("onAdFailedToLoad", arguments: ["errorCode": error.code])
     }
 

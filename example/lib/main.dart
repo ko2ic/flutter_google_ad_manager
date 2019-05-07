@@ -108,139 +108,141 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Banners',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            RaisedButton(
-              child: Text(DFPAdSize.BANNER.toString()),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BannerPage(size: DFPAdSize.BANNER),
-                ));
-              },
-            ),
-            RaisedButton(
-              child: Text(DFPAdSize.FULL_BANNER.toString()),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BannerPage(size: DFPAdSize.FULL_BANNER),
-                ));
-              },
-            ),
-            RaisedButton(
-              child: Text(DFPAdSize.LARGE_BANNER.toString()),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BannerPage(size: DFPAdSize.LARGE_BANNER),
-                ));
-              },
-            ),
-            RaisedButton(
-              child: Text(DFPAdSize.LEADERBOARD.toString()),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BannerPage(size: DFPAdSize.LEADERBOARD),
-                ));
-              },
-            ),
-            RaisedButton(
-              child: Text(DFPAdSize.MEDIUM_RECTANGLE.toString()),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BannerPage(size: DFPAdSize.MEDIUM_RECTANGLE),
-                ));
-              },
-            ),
-            RaisedButton(
-              child: Text(DFPAdSize.SMART_BANNER.toString()),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => BannerPage(size: DFPAdSize.SMART_BANNER),
-                ));
-              },
-            ),
-            Text(
-              'Interstitial',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            RaisedButton(
-              child: Text('Show Interstitial'),
-              onPressed: () {
-                _interstitialAd.show();
-              },
-            ),
-            Text(
-              'Rewarded',
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            RaisedButton(
-              child: Text('Show Rewarded'),
-              onPressed: () {
-                _rewardedAd.show();
-              },
-            ),
-            /*ListView.builder(
-            padding: EdgeInsets.all(20.0),
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              if (index != 0 && index % 4 == 0) {
-                return Column(
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 16, bottom: 16.0),
-                      child: DFPBanner(
-                        isDevelop: true,
-                        testDevices: MyTestDevices(),
-                        adUnitId: '/XXXXXXXXX/XXXXXXXXX',
-                        adSize: DFPAdSize.BANNER,
-                        onAdLoaded: () {
-                          print('Banner onAdLoaded');
-                        },
-                        onAdFailedToLoad: (errorCode) {
-                          print('Banner onAdFailedToLoad: errorCode:$errorCode');
-                        },
-                        onAdOpened: () {
-                          print('Banner onAdOpened');
-                        },
-                        onAdClosed: () {
-                          print('Banner onAdClosed');
-                        },
-                        onAdLeftApplication: () {
-                          print('Banner onAdLeftApplication');
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              }
-              return SizedBox(
-                height: 100.0,
-                child: Card(
-                  child: Center(
-                    child: Text('$index'),
-                  ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Banners',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
                 ),
-              );
-            },
-          ),*/
-          ],
+              ),
+              RaisedButton(
+                child: Text(DFPAdSize.BANNER.toString()),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BannerPage(size: DFPAdSize.BANNER),
+                  ));
+                },
+              ),
+              RaisedButton(
+                child: Text(DFPAdSize.FULL_BANNER.toString()),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BannerPage(size: DFPAdSize.FULL_BANNER),
+                  ));
+                },
+              ),
+              RaisedButton(
+                child: Text(DFPAdSize.LARGE_BANNER.toString()),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BannerPage(size: DFPAdSize.LARGE_BANNER),
+                  ));
+                },
+              ),
+              RaisedButton(
+                child: Text(DFPAdSize.LEADERBOARD.toString()),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BannerPage(size: DFPAdSize.LEADERBOARD),
+                  ));
+                },
+              ),
+              RaisedButton(
+                child: Text(DFPAdSize.MEDIUM_RECTANGLE.toString()),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BannerPage(size: DFPAdSize.MEDIUM_RECTANGLE),
+                  ));
+                },
+              ),
+              RaisedButton(
+                child: Text(DFPAdSize.SMART_BANNER.toString()),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BannerPage(size: DFPAdSize.SMART_BANNER),
+                  ));
+                },
+              ),
+              Text(
+                'Interstitial',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              RaisedButton(
+                child: Text('Show Interstitial'),
+                onPressed: () {
+                  _interstitialAd.show();
+                },
+              ),
+              Text(
+                'Rewarded',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              RaisedButton(
+                child: Text('Show Rewarded'),
+                onPressed: () {
+                  _rewardedAd.show();
+                },
+              ),
+              /*ListView.builder(
+              padding: EdgeInsets.all(20.0),
+              itemCount: 10,
+              itemBuilder: (BuildContext context, int index) {
+                if (index != 0 && index % 4 == 0) {
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(top: 16, bottom: 16.0),
+                        child: DFPBanner(
+                          isDevelop: true,
+                          testDevices: MyTestDevices(),
+                          adUnitId: '/XXXXXXXXX/XXXXXXXXX',
+                          adSize: DFPAdSize.BANNER,
+                          onAdLoaded: () {
+                            print('Banner onAdLoaded');
+                          },
+                          onAdFailedToLoad: (errorCode) {
+                            print('Banner onAdFailedToLoad: errorCode:$errorCode');
+                          },
+                          onAdOpened: () {
+                            print('Banner onAdOpened');
+                          },
+                          onAdClosed: () {
+                            print('Banner onAdClosed');
+                          },
+                          onAdLeftApplication: () {
+                            print('Banner onAdLeftApplication');
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }
+                return SizedBox(
+                  height: 100.0,
+                  child: Card(
+                    child: Center(
+                      child: Text('$index'),
+                    ),
+                  ),
+                );
+              },
+            ),*/
+            ],
+          ),
         ),
       ),
       /*floatingActionButton: FloatingActionButton(
