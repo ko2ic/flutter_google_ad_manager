@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_google_ad_manager/ad_size.dart';
 import 'package:flutter_google_ad_manager/test_devices.dart';
 
-typedef void _DFPBannerViewCreatedCallback(_DFPBannerViewController controller);
+typedef void _DFPBannerViewCreatedCallback(DFPBannerViewController controller);
 
 /// Banner Widget of Google Ad Manger.
 class DFPBanner extends StatelessWidget {
@@ -22,6 +22,7 @@ class DFPBanner extends StatelessWidget {
 
   final void Function() onAdLoaded;
   final void Function(int errorCode) onAdFailedToLoad;
+  final void Function(DFPBannerViewController controller) onAdViewCreated;
 
   /// only android
   final void Function() onAdOpened;
@@ -38,6 +39,7 @@ class DFPBanner extends StatelessWidget {
     this.onAdOpened,
     this.onAdClosed,
     this.onAdLeftApplication,
+    this.onAdViewCreated,
   });
 
   @override
@@ -55,10 +57,17 @@ class DFPBanner extends StatelessWidget {
         onAdOpened: onAdOpened,
         onAdClosed: onAdClosed,
         onAdLeftApplication: onAdLeftApplication,
-        onPlatformCompleted: (_DFPBannerViewController controller) => controller.load(),
+        onAdViewCreated: onAdViewCreated,
+        onPlatformCompleted: (DFPBannerViewController controller) {
+          controller._init();
+          if (onAdViewCreated != null) {
+            onAdViewCreated(controller);
+          }
+        },
       ),
     );
   }
+
 }
 
 class _DFPBannerView extends StatefulWidget {
@@ -71,6 +80,7 @@ class _DFPBannerView extends StatefulWidget {
   final void Function() onAdOpened;
   final void Function() onAdClosed;
   final void Function() onAdLeftApplication;
+  final void Function(DFPBannerViewController controller) onAdViewCreated;
   final _DFPBannerViewCreatedCallback onPlatformCompleted;
 
   _DFPBannerView({
@@ -83,6 +93,7 @@ class _DFPBannerView extends StatefulWidget {
     this.onAdOpened,
     this.onAdClosed,
     this.onAdLeftApplication,
+    this.onAdViewCreated,
     this.onPlatformCompleted,
   });
 
@@ -113,7 +124,7 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
     if (widget.onPlatformCompleted == null) {
       return;
     }
-    widget.onPlatformCompleted(_DFPBannerViewController(
+    widget.onPlatformCompleted(DFPBannerViewController._internal(
       isDevelop: widget.isDevelop,
       testDevices: widget.testDevices,
       adUnitId: widget.adUnitId,
@@ -123,12 +134,13 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
       onAdOpened: widget.onAdOpened,
       onAdClosed: widget.onAdClosed,
       onAdLeftApplication: widget.onAdLeftApplication,
+      onAdViewCreated: widget.onAdViewCreated,
       id: id,
     ));
   }
 }
 
-class _DFPBannerViewController {
+class DFPBannerViewController {
   final bool isDevelop;
   final TestDevices testDevices;
   final String adUnitId;
@@ -138,8 +150,9 @@ class _DFPBannerViewController {
   final void Function() onAdOpened;
   final void Function() onAdClosed;
   final void Function() onAdLeftApplication;
+  final void Function(DFPBannerViewController controller) onAdViewCreated;
 
-  _DFPBannerViewController({
+  DFPBannerViewController._internal({
     @required this.isDevelop,
     this.testDevices,
     @required this.adUnitId,
@@ -149,12 +162,13 @@ class _DFPBannerViewController {
     this.onAdOpened,
     this.onAdClosed,
     this.onAdLeftApplication,
+    this.onAdViewCreated,
     int id,
   }) : _channel = new MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
 
   final MethodChannel _channel;
 
-  Future<void> load() async {
+  Future<void> _init() async {
     _channel.setMethodCallHandler((call) {
       switch (call.method) {
         case "onAdLoaded":
@@ -176,6 +190,14 @@ class _DFPBannerViewController {
       }
     });
 
+    return _load();
+  }
+
+  Future<void> reload() async {
+    return _load();
+  }
+
+  Future<void> _load() {
     return _channel.invokeMethod('load', {
       "isDevelop": this.isDevelop,
       "testDevices": this.testDevices?.values,

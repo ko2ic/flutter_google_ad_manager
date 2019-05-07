@@ -64,6 +64,41 @@ DFPBanner(
   },
 ),
 ```
+## Manual Ad Refresh
+You can manually refresh the banner ads on user interaction, use the ```onAdViewCreated``` callback to save an instance of the DFPBannerViewController and then call the reload() method to refresh the ad.
+
+```dart
+DFPBannerViewController _bannerViewController;
+
+_reload() {
+  _bannerViewController?.reload();
+}
+
+DFPBanner(
+  isDevelop: true,
+  testDevices: MyTestDevices(),
+  adUnitId: '/XXXXXXXXX/XXXXXXXXX',
+  adSize: DFPAdSize.BANNER,
+  onAdViewCreated: (controller) {
+    _bannerViewController = controller;
+  },
+  onAdLoaded: () {
+    print('Banner onAdLoaded');
+  },
+  onAdFailedToLoad: (errorCode) {
+    print('Banner onAdFailedToLoad: errorCode:$errorCode');
+  },
+  onAdOpened: () {
+    print('Banner onAdOpened');
+  },
+  onAdClosed: () {
+    print('Banner onAdClosed');
+  },
+  onAdLeftApplication: () {
+    print('Banner onAdLeftApplication');
+  },
+),
+```
 
 ## About testDevices
 
@@ -92,6 +127,7 @@ class MyTestDevices extends TestDevices {
 ```
 DFPBanner(
   testDevices: MyTestDevices(),
+)
 ```
 
 ## About adSize
@@ -111,12 +147,14 @@ Other custom is also available.
 
 ## About EventListener
 
-Event listeners are also available.   
-However, ios does __not__ work. (I am conducting an investigation, but I do not know yet.)
-If you really want to use it, you can use listener by bringing Plugin source to your application.
+The following event listeners are available:
+* onAdLoaded
+* onAdFailedToLoad
+* onAdOpened
+* onAdClosed
+* onAdLeftApplication 
 
 # Interstitial Ads
-
 
 Firstly ```load``` it and call the ```show``` method at the desired timing.
 
@@ -168,10 +206,12 @@ If you set ```isDevelop``` to true, the test adUnitId will be used.
 
 ## About EventListener
 
-It is similar to the above Banner.   
-It does __not__ work on ios.   
-
-Because of this, it can not be reloaded after closing, so it can not be displayed twice on the same screen.
+The following event listeners are available:
+* onAdLoaded
+* onAdFailedToLoad
+* onAdOpened
+* onAdClosed
+* onAdLeftApplication
 
 # Rewarded Ads
 
@@ -264,8 +304,15 @@ If you set ```isDevelop``` to true, the test adUnitId will be used.
 
 ## About EventListener
 
-Event listeners are also available.   
-__This also works with ios and android__.
+The following event listeners are available:
+* onAdLoaded
+* onAdFailedToLoad
+* onAdOpened
+* onAdClosed
+* onAdLeftApplication
+* onRewarded
+* onVideoStarted
+* onVideoCompleted
 
 # Native Ads
 

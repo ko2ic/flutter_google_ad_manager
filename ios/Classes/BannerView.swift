@@ -110,39 +110,39 @@ class BannerView: NSObject, FlutterPlatformView {
 
 extension BannerView: GADBannerViewDelegate {
     /// Tells the delegate an ad request loaded an ad.
-    func adViewDidReceiveAd(_: DFPBannerView) {
+    func adViewDidReceiveAd(_: GADBannerView) {
         channel.invokeMethod("onAdLoaded", arguments: nil)
     }
 
     /// Tells the delegate an ad request failed.
-    func adView(_: DFPBannerView,
+    func adView(_: GADBannerView,
                 didFailToReceiveAdWithError error: GADRequestError) {
         container.subviews.forEach { view in
             view.removeFromSuperview()
         }
-        container = nil
+        //container = nil
         channel.invokeMethod("onAdFailedToLoad", arguments: ["errorCode": error.code])
     }
 
     /// Tells the delegate that a full-screen view will be presented in response
     /// to the user clicking on an ad.
-    func adViewWillPresentScreen(_: DFPBannerView) {
+    func adViewWillPresentScreen(_: GADBannerView) {
         print(adViewWillPresentScreen) // TODO:
     }
 
     /// Tells the delegate that the full-screen view will be dismissed.
-    func adViewWillDismissScreen(_: DFPBannerView) {
+    func adViewWillDismissScreen(_: GADBannerView) {
         print(adViewWillDismissScreen) // TODO:
     }
 
     /// Tells the delegate that the full-screen view has been dismissed.
-    func adViewDidDismissScreen(_: DFPBannerView) {
+    func adViewDidDismissScreen(_: GADBannerView) {
         print(adViewDidDismissScreen) // TODO:
     }
 
     /// Tells the delegate that a user click will open another app (such as
     /// the App Store), backgrounding the current app.
-    func adViewWillLeaveApplication(_: DFPBannerView) {
+    func adViewWillLeaveApplication(_: GADBannerView) {
         channel.invokeMethod("onAdOpened", arguments: nil)
         channel.invokeMethod("onAdLeftApplication", arguments: nil)
     }
