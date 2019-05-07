@@ -4,7 +4,7 @@ class MyTestDevices extends TestDevices {
   static MyTestDevices _instance;
 
   factory MyTestDevices() {
-    if (_instance == null) _instance = new MyTestDevices._internal();
+    if (_instance == null) _instance = MyTestDevices._internal();
     return _instance;
   }
 

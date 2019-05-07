@@ -46,8 +46,8 @@ class _BannerPageState extends State<BannerPage> {
         child: Column(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 16.0),
-              decoration: new BoxDecoration(border: new Border.all(color: Theme.of(context).primaryColor)),
+              margin: EdgeInsets.symmetric(vertical: 16.0),
+              decoration: BoxDecoration(border: Border.all(color: Theme.of(context).primaryColor)),
               child: DFPBanner(
                 isDevelop: true,
                 testDevices: MyTestDevices(),
@@ -80,10 +80,10 @@ class _BannerPageState extends State<BannerPage> {
             ),
             Expanded(
               flex: 1,
-              child: new SingleChildScrollView(
-                child: new Text(
+              child: SingleChildScrollView(
+                child: Text(
                   _log,
-                  style: new TextStyle(
+                  style: TextStyle(
                     fontSize: 16.0,
                   ),
                 ),
