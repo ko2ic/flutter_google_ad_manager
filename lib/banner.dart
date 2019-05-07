@@ -9,7 +9,6 @@ typedef void _DFPBannerViewCreatedCallback(DFPBannerViewController controller);
 
 /// Banner Widget of Google Ad Manger.
 class DFPBanner extends StatelessWidget {
-
   /// If true, develop mode.
   /// It is that adUnitId for test will be used.
   final bool isDevelop;
@@ -44,9 +43,21 @@ class DFPBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = adSize.width;
+    var height = adSize.height;
+    if (adSize.width == DFPAdSize.FULL_WIDTH) {
+      width = MediaQuery.of(context).size.width;
+      if (MediaQuery.of(context).orientation == Orientation.portrait) {
+        height = 50;
+      } else {
+        height = 32;
+      }
+      // TODO iPad support
+    }
+
     return SizedBox(
-      width: adSize.width,
-      height: adSize.height,
+      width: width,
+      height: height,
       child: _DFPBannerView(
         isDevelop: isDevelop,
         testDevices: testDevices,
@@ -67,7 +78,6 @@ class DFPBanner extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _DFPBannerView extends StatefulWidget {
