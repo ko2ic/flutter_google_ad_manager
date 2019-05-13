@@ -85,15 +85,14 @@ class BannerView(private val context: Context, id: Int, messenger: BinaryMesseng
 
         if (isDevelop) {
             publisherAdView?.adUnitId = "/6499/example/banner"
-            builder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-            val testDevices = arguments["testDevices"] as? List<*>
-            if (testDevices != null) {
-                testDevices.filterIsInstance<String>().forEach { testDevice ->
-                    builder.addTestDevice(testDevice)
-                }
-            }
         } else {
             publisherAdView?.adUnitId = adUnitId
+        }
+
+        builder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+        val testDevices = arguments["testDevices"] as? List<*>
+        testDevices?.filterIsInstance<String>()?.forEach { testDevice ->
+            builder.addTestDevice(testDevice)
         }
 
         publisherAdView?.setAdSizes(*adSizes)

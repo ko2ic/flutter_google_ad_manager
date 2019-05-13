@@ -48,11 +48,12 @@ class BannerView: NSObject, FlutterPlatformView {
         let request = DFPRequest()
         if isDevelop {
             bannerView.adUnitID = "/6499/example/banner"
-            if let testDevices = testDevices {
-                request.testDevices = testDevices
-            }
         } else {
             bannerView.adUnitID = adUnitId
+        }
+
+        if let testDevices = testDevices {
+            request.testDevices = testDevices
         }
 
         bannerView.delegate = self
