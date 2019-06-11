@@ -18,6 +18,7 @@ class DFPBanner extends StatelessWidget {
 
   final String adUnitId;
   final DFPAdSize adSize;
+  final Map<String, dynamic> customTargeting;
 
   final void Function() onAdLoaded;
   final void Function(int errorCode) onAdFailedToLoad;
@@ -39,11 +40,13 @@ class DFPBanner extends StatelessWidget {
     this.onAdClosed,
     this.onAdLeftApplication,
     this.onAdViewCreated,
+    this.customTargeting,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     var width = adSize.width;
     var height = adSize.height;
     if (adSize.width == DFPAdSize.FULL_WIDTH) {
@@ -84,6 +87,7 @@ class DFPBanner extends StatelessWidget {
         onAdClosed: onAdClosed,
         onAdLeftApplication: onAdLeftApplication,
         onAdViewCreated: onAdViewCreated,
+        customTargeting: customTargeting,
         onPlatformCompleted: (DFPBannerViewController controller) {
           controller._init();
           if (onAdViewCreated != null) {
@@ -108,6 +112,7 @@ class _DFPBannerView extends StatefulWidget {
   final void Function() onAdLeftApplication;
   final void Function(DFPBannerViewController controller) onAdViewCreated;
   final _DFPBannerViewCreatedCallback onPlatformCompleted;
+  final Map<String, dynamic> customTargeting;
 
   _DFPBannerView({
     @required this.isDevelop,
@@ -122,6 +127,7 @@ class _DFPBannerView extends StatefulWidget {
     this.onAdLeftApplication,
     this.onAdViewCreated,
     this.onPlatformCompleted,
+    this.customTargeting,
   });
 
   @override
@@ -164,6 +170,7 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
       onAdLeftApplication: widget.onAdLeftApplication,
       onAdViewCreated: widget.onAdViewCreated,
       id: id,
+      customTargeting: widget.customTargeting,
     ));
   }
 }
@@ -180,6 +187,7 @@ class DFPBannerViewController {
   final void Function() onAdClosed;
   final void Function() onAdLeftApplication;
   final void Function(DFPBannerViewController controller) onAdViewCreated;
+  final Map<String, dynamic> customTargeting;
 
   DFPBannerViewController._internal({
     @required this.isDevelop,
@@ -193,8 +201,10 @@ class DFPBannerViewController {
     this.onAdClosed,
     this.onAdLeftApplication,
     this.onAdViewCreated,
+    this.customTargeting,
     int id,
-  }) : _channel = new MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
+  }) : _channel =
+            new MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
 
   final MethodChannel _channel;
 
@@ -236,6 +246,7 @@ class DFPBannerViewController {
       "isPortrait": this.isPortrait,
       "widths": [this.adSize.width],
       "heights": [this.adSize.height],
+      "customTargeting": this.customTargeting,
     });
   }
 }

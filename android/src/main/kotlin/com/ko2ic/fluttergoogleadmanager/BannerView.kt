@@ -76,11 +76,23 @@ class BannerView(private val context: Context, id: Int, messenger: BinaryMesseng
             widthsParameter.filterIsInstance<Int>(),
             heightsParameter.filterIsInstance<Int>()
         )
+        @Suppress("UNCHECKED_CAST")
+        val customTargeting = arguments["customTargeting"] as? Map<String, Any>
 
         container?.removeAllViews()
         publisherAdView?.destroy()
 
         val builder = PublisherAdRequest.Builder()
+        customTargeting?.let {
+            it.entries.forEach { (key, value) ->
+                when (value) {
+                    is String -> builder.addCustomTargeting(key, value)
+                    is List<*> -> builder.addCustomTargeting(key, value.filterIsInstance<String>())
+                    else -> throw IllegalArgumentException("customTargeting: values must be either Strings or Lists of Strings, but got $value")
+                }
+
+            }
+        }
         this.publisherAdView = PublisherAdView(context)
 
         if (isDevelop) {

@@ -39,6 +39,7 @@ class BannerView: NSObject, FlutterPlatformView {
         let widthsArgument = argument["widths"] as! [Int]
         let heightsArgument = argument["heights"] as! [Int]
         let isPortrait = argument["isPortrait"] as? Bool ?? true
+        let customTargeting = argument["customTargeting"] as? [String: Any]
 
         let adSize = convertToAdSizes(adSizesArgument, widths: widthsArgument, heights: heightsArgument, isPortrait: isPortrait, result: result).first!
 
@@ -62,6 +63,8 @@ class BannerView: NSObject, FlutterPlatformView {
 
         addBannerViewToView(bannerView)
 
+        request.customTargeting = customTargeting
+        
         bannerView.load(request)
         result(nil)
     }
