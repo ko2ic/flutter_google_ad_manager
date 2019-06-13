@@ -29,18 +29,19 @@ class DFPBanner extends StatelessWidget {
   final void Function() onAdClosed;
   final void Function() onAdLeftApplication;
 
-  DFPBanner(
-      {@required this.isDevelop,
-      this.testDevices,
-      @required this.adUnitId,
-      @required this.adSize,
-      this.onAdLoaded,
-      this.onAdFailedToLoad,
-      this.onAdOpened,
-      this.onAdClosed,
-      this.onAdLeftApplication,
-      this.onAdViewCreated,
-      this.customTargeting = const {}});
+  DFPBanner({
+    @required this.isDevelop,
+    this.testDevices,
+    @required this.adUnitId,
+    @required this.adSize,
+    this.onAdLoaded,
+    this.onAdFailedToLoad,
+    this.onAdOpened,
+    this.onAdClosed,
+    this.onAdLeftApplication,
+    this.onAdViewCreated,
+    this.customTargeting,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -113,20 +114,21 @@ class _DFPBannerView extends StatefulWidget {
   final _DFPBannerViewCreatedCallback onPlatformCompleted;
   final Map<String, dynamic> customTargeting;
 
-  _DFPBannerView(
-      {@required this.isDevelop,
-      this.testDevices,
-      @required this.adUnitId,
-      @required this.adSize,
-      @required this.isPortrait,
-      this.onAdLoaded,
-      this.onAdFailedToLoad,
-      this.onAdOpened,
-      this.onAdClosed,
-      this.onAdLeftApplication,
-      this.onAdViewCreated,
-      this.onPlatformCompleted,
-      this.customTargeting});
+  _DFPBannerView({
+    @required this.isDevelop,
+    this.testDevices,
+    @required this.adUnitId,
+    @required this.adSize,
+    @required this.isPortrait,
+    this.onAdLoaded,
+    this.onAdFailedToLoad,
+    this.onAdOpened,
+    this.onAdClosed,
+    this.onAdLeftApplication,
+    this.onAdViewCreated,
+    this.onPlatformCompleted,
+    this.customTargeting,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -156,19 +158,20 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
       return;
     }
     widget.onPlatformCompleted(DFPBannerViewController._internal(
-        isDevelop: widget.isDevelop,
-        testDevices: widget.testDevices,
-        adUnitId: widget.adUnitId,
-        adSize: widget.adSize,
-        isPortrait: widget.isPortrait,
-        onAdLoaded: widget.onAdLoaded,
-        onAdFailedToLoad: widget.onAdFailedToLoad,
-        onAdOpened: widget.onAdOpened,
-        onAdClosed: widget.onAdClosed,
-        onAdLeftApplication: widget.onAdLeftApplication,
-        onAdViewCreated: widget.onAdViewCreated,
-        id: id,
-        customTargeting: widget.customTargeting));
+      isDevelop: widget.isDevelop,
+      testDevices: widget.testDevices,
+      adUnitId: widget.adUnitId,
+      adSize: widget.adSize,
+      isPortrait: widget.isPortrait,
+      onAdLoaded: widget.onAdLoaded,
+      onAdFailedToLoad: widget.onAdFailedToLoad,
+      onAdOpened: widget.onAdOpened,
+      onAdClosed: widget.onAdClosed,
+      onAdLeftApplication: widget.onAdLeftApplication,
+      onAdViewCreated: widget.onAdViewCreated,
+      id: id,
+      customTargeting: widget.customTargeting,
+    ));
   }
 }
 
