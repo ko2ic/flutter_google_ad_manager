@@ -1,3 +1,7 @@
+## 0.9.0
+
+*  Support customTargeting.
+
 ## 0.8.0
 
 * Fix that test ads be shown on devices registered with TestDevice regardless of ```isDevelop```.
