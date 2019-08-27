@@ -1,5 +1,6 @@
 package com.ko2ic.fluttergoogleadmanager
 
+import android.util.Log;
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -118,6 +119,9 @@ class BannerView(private val context: Context, id: Int, messenger: BinaryMesseng
     }
 
     private fun convertToAdSizes(adSizes: List<String>, widths: List<Int>, heights: List<Int>): Array<AdSize> {
+        if (!adSizes.isEmpty() && (widths.isEmpty() || heights.isEmpty())) {
+            throw java.lang.IllegalArgumentException("widths and heights are both required when adSizes are present");
+        }
         return adSizes.mapIndexedNotNull { index, value ->
             when (value) {
                 "BANNER" -> AdSize.BANNER

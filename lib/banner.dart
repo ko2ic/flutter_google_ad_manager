@@ -244,8 +244,8 @@ class DFPBannerViewController {
       "adUnitId": this.adUnitId,
       "adSizes": [this.adSize.toString()],
       "isPortrait": this.isPortrait,
-      "widths": [this.adSize.width],
-      "heights": [this.adSize.height],
+      "widths": [this.adSize.width.toInt()],
+      "heights": [this.adSize.height.toInt()],
       "customTargeting": this.customTargeting,
     });
   }
