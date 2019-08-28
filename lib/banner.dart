@@ -45,8 +45,7 @@ class DFPBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
+    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     var width = adSize.width;
     var height = adSize.height;
     if (adSize.width == DFPAdSize.FULL_WIDTH) {
@@ -203,8 +202,7 @@ class DFPBannerViewController {
     this.onAdViewCreated,
     this.customTargeting,
     int id,
-  }) : _channel =
-            new MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
+  }) : _channel = new MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
 
   final MethodChannel _channel;
 
@@ -228,6 +226,7 @@ class DFPBannerViewController {
           onAdLeftApplication();
           break;
       }
+      return Future.value(null);
     });
 
     return _load();

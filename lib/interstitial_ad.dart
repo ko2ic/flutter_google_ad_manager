@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 
 /// Class to display interstitial ads of Google Ad Manger.
 class DFPInterstitialAd {
-  static const MethodChannel _channel = const MethodChannel('plugins.ko2ic.com/google_ad_manager/interstitial');
+  static const MethodChannel _channel =
+      const MethodChannel('plugins.ko2ic.com/google_ad_manager/interstitial');
 
   final bool isDevelop;
   final String adUnitId;

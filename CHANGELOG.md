@@ -1,3 +1,8 @@
+## 0.10.1
+
+* Fix to return Future in setMethodCallHandler()
+* Format code.
+
 ## 0.10.0
 
 * Fix a crash when specifying a double value for ```DFPAdSize.custom()```

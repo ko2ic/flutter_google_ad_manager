@@ -1,6 +1,5 @@
 /// In the case of the test mode, the class that holds the test device id for display on the real device.
 abstract class TestDevices {
-
   /// Return Test Devices ID.
   /// Implement as follows.
   ///

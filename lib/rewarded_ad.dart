@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 
 /// Class to display Rewarded Video Ads of Google Ad Manger.
 class DFPRewardedAd {
-  static const MethodChannel _channel = const MethodChannel('plugins.ko2ic.com/google_ad_manager/rewarded');
+  static const MethodChannel _channel =
+      const MethodChannel('plugins.ko2ic.com/google_ad_manager/rewarded');
 
   final bool isDevelop;
   final String adUnitId;
