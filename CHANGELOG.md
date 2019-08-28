@@ -1,3 +1,9 @@
+## 0.10.0
+
+* Fix a crash when specifying a double value for ```DFPAdSize.custom()```
+* Set default value (width = 320,height = 50) for ```DFPAdSize.custom()```
+* Change version to Gradle Plugin 3.5.0
+
 ## 0.9.0
 
 *  Support customTargeting.

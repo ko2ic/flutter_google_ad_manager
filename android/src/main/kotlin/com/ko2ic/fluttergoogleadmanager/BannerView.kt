@@ -66,15 +66,18 @@ class BannerView(private val context: Context, id: Int, messenger: BinaryMesseng
         val isDevelop = arguments.get("isDevelop") as? Boolean ?: false
         val adUnitId = arguments.get("adUnitId") as String
         val adSizesParameter =
-            arguments.get("adSizes") as? List<*> ?: throw IllegalArgumentException("adSizes is required.")
+            arguments.get("adSizes") as? List<*>
+                ?: throw IllegalArgumentException("adSizes is required.")
         val widthsParameter =
-            arguments.get("widths") as? List<*> ?: throw IllegalArgumentException("widths is required.")
+            arguments.get("widths") as? List<*>
+                ?: throw IllegalArgumentException("widths is required.")
         val heightsParameter =
-            arguments.get("heights") as? List<*> ?: throw IllegalArgumentException("heights is required.")
+            arguments.get("heights") as? List<*>
+                ?: throw IllegalArgumentException("heights is required.")
         val adSizes = convertToAdSizes(
             adSizesParameter.filterIsInstance<String>(),
-            widthsParameter.filterIsInstance<Int>(),
-            heightsParameter.filterIsInstance<Int>()
+            widthsParameter.filterIsInstance<Double>(),
+            heightsParameter.filterIsInstance<Double>()
         )
         @Suppress("UNCHECKED_CAST")
         val customTargeting = arguments["customTargeting"] as? Map<String, Any>
@@ -117,7 +120,11 @@ class BannerView(private val context: Context, id: Int, messenger: BinaryMesseng
         result.success(null)
     }
 
-    private fun convertToAdSizes(adSizes: List<String>, widths: List<Int>, heights: List<Int>): Array<AdSize> {
+    private fun convertToAdSizes(
+        adSizes: List<String>,
+        widths: List<Double>,
+        heights: List<Double>
+    ): Array<AdSize> {
         return adSizes.mapIndexedNotNull { index, value ->
             when (value) {
                 "BANNER" -> AdSize.BANNER
@@ -126,9 +133,9 @@ class BannerView(private val context: Context, id: Int, messenger: BinaryMesseng
                 "LEADERBOARD" -> AdSize.LEADERBOARD
                 "MEDIUM_RECTANGLE" -> AdSize.MEDIUM_RECTANGLE
                 "SMART_BANNER" -> AdSize.SMART_BANNER
-                "CUSTOM" -> AdSize(widths[index], heights[index])
+                "CUSTOM" -> AdSize(widths[index].toInt(), heights[index].toInt())
                 else -> {
-                    throw java.lang.IllegalArgumentException("$value is unsupported.");
+                    throw java.lang.IllegalArgumentException("$value is unsupported.")
                 }
             }
         }.toTypedArray()
@@ -137,7 +144,10 @@ class BannerView(private val context: Context, id: Int, messenger: BinaryMesseng
     /**
      * Ads Event listener.
      */
-    class BannerListener(private val channel: MethodChannel, private val publisherAdView: PublisherAdView?) :
+    class BannerListener(
+        private val channel: MethodChannel,
+        private val publisherAdView: PublisherAdView?
+    ) :
         AdListener() {
         /**
          * It will run when the ad loading is complete.

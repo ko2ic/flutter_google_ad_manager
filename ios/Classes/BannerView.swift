@@ -36,8 +36,8 @@ class BannerView: NSObject, FlutterPlatformView {
         let isDevelop = argument["isDevelop"] as? Bool ?? false
         let testDevices = argument["testDevices"] as? [String]
         let adSizesArgument = argument["adSizes"] as! [String]
-        let widthsArgument = argument["widths"] as! [Int]
-        let heightsArgument = argument["heights"] as! [Int]
+        let widthsArgument = argument["widths"] as! [Double]
+        let heightsArgument = argument["heights"] as! [Double]
         let isPortrait = argument["isPortrait"] as? Bool ?? true
         let customTargeting = argument["customTargeting"] as? [String: Any]
 
@@ -89,7 +89,7 @@ class BannerView: NSObject, FlutterPlatformView {
                                                      constant: 0)])
     }
 
-    private func convertToAdSizes(_ names: [String], widths: [Int], heights: [Int], isPortrait: Bool, result: @escaping FlutterResult) -> [GADAdSize] {
+    private func convertToAdSizes(_ names: [String], widths: [Double], heights: [Double], isPortrait: Bool, result: @escaping FlutterResult) -> [GADAdSize] {
         return names.enumerated().map { (index: Int, name: String) -> GADAdSize in
             switch name {
             case "BANNER":

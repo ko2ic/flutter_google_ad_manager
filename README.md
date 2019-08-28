@@ -145,6 +145,8 @@ Other custom is also available.
 
 ```const DFPAdSize.custom({double width, double height})```.
 
+Note: In case of Android, ```DFPAdSize.custom()``` will be toInt () instead of double because AdSize class constructor of Google Ad Manager SDK is only int. 
+
 ## About EventListener
 
 The following event listeners are available:

@@ -169,6 +169,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   ));
                 },
               ),
+              RaisedButton(
+                child: Text('custom'),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => BannerPage(size: DFPAdSize.custom(width: 200.5, height: 200.5)),
+                  ));
+                },
+              ),
               Text(
                 'Interstitial',
                 style: TextStyle(
@@ -260,22 +268,22 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-            title: Text("Rewarded Ads Load Error"),
-            content: Text("error code: $errorCode"),
-            actions: <Widget>[
-              FlatButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              FlatButton(
-                  child: const Text('Reload'),
-                  onPressed: () {
-                    _rewardedAd.load();
-                    Navigator.pop(context);
-                  })
-            ],
-          ),
+        title: Text("Rewarded Ads Load Error"),
+        content: Text("error code: $errorCode"),
+        actions: <Widget>[
+          FlatButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          FlatButton(
+              child: const Text('Reload'),
+              onPressed: () {
+                _rewardedAd.load();
+                Navigator.pop(context);
+              })
+        ],
+      ),
     );
   }
 }
