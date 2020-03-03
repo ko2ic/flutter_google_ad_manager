@@ -5,10 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_google_ad_manager/ad_size.dart';
 import 'package:flutter_google_ad_manager/test_devices.dart';
 
-typedef void _DFPBannerViewCreatedCallback(DFPBannerViewController controller);
-
 /// Banner Widget of Google Ad Manger.
-class DFPBanner extends StatelessWidget {
+class DFPBanner extends StatefulWidget {
   /// If true, develop mode.
   /// It is that adUnitId for test will be used.
   final bool isDevelop;
@@ -30,6 +28,7 @@ class DFPBanner extends StatelessWidget {
   final void Function() onAdLeftApplication;
 
   DFPBanner({
+    Key key,
     @required this.isDevelop,
     this.testDevices,
     @required this.adUnitId,
@@ -41,103 +40,44 @@ class DFPBanner extends StatelessWidget {
     this.onAdLeftApplication,
     this.onAdViewCreated,
     this.customTargeting,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
-    var width = adSize.width;
-    var height = adSize.height;
-    if (adSize.width == DFPAdSize.FULL_WIDTH) {
-      width = MediaQuery.of(context).size.width;
-      if (isPortrait) {
-        height = 50;
-      } else {
-        height = 32;
-      }
-      // TODO iPad support
-    }
-
-//    return OrientationBuilder(builder: (context, Orientation orientation) {
-//      var width = adSize.width;
-//      var height = adSize.height;
-//      if (adSize.width == DFPAdSize.FULL_WIDTH) {
-//        width = MediaQuery.of(context).size.width;
-//        if (orientation == Orientation.portrait) {
-//          height = 50;
-//        } else {
-//          height = 32;
-//        }
-//        // TODO iPad support
-//      }
-
-    return SizedBox(
-      width: width,
-      height: height,
-      child: _DFPBannerView(
-        isDevelop: isDevelop,
-        testDevices: testDevices,
-        adUnitId: adUnitId,
-        adSize: adSize,
-        isPortrait: isPortrait,
-        onAdLoaded: onAdLoaded,
-        onAdFailedToLoad: onAdFailedToLoad,
-        onAdOpened: onAdOpened,
-        onAdClosed: onAdClosed,
-        onAdLeftApplication: onAdLeftApplication,
-        onAdViewCreated: onAdViewCreated,
-        customTargeting: customTargeting,
-        onPlatformCompleted: (DFPBannerViewController controller) {
-          controller._init();
-          if (onAdViewCreated != null) {
-            onAdViewCreated(controller);
-          }
-        },
-      ),
-    );
-  }
-}
-
-class _DFPBannerView extends StatefulWidget {
-  final bool isDevelop;
-  final TestDevices testDevices;
-  final String adUnitId;
-  final DFPAdSize adSize;
-  final bool isPortrait;
-  final void Function() onAdLoaded;
-  final void Function(int errorCode) onAdFailedToLoad;
-  final void Function() onAdOpened;
-  final void Function() onAdClosed;
-  final void Function() onAdLeftApplication;
-  final void Function(DFPBannerViewController controller) onAdViewCreated;
-  final _DFPBannerViewCreatedCallback onPlatformCompleted;
-  final Map<String, dynamic> customTargeting;
-
-  _DFPBannerView({
-    @required this.isDevelop,
-    this.testDevices,
-    @required this.adUnitId,
-    @required this.adSize,
-    @required this.isPortrait,
-    this.onAdLoaded,
-    this.onAdFailedToLoad,
-    this.onAdOpened,
-    this.onAdClosed,
-    this.onAdLeftApplication,
-    this.onAdViewCreated,
-    this.onPlatformCompleted,
-    this.customTargeting,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _DFPBannerViewState();
+    return DFPBannerState();
   }
 }
 
-class _DFPBannerViewState extends State<_DFPBannerView> {
+class DFPBannerState extends State<DFPBanner> {
+  DFPBannerViewController _controller;
+
+  bool _isPortrait;
+
   @override
   Widget build(BuildContext context) {
+    _isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
+    Size size;
+    if (widget.adSize.width == DFPAdSize.FULL_WIDTH) {
+      final width = MediaQuery.of(context).size.width;
+      if (_isPortrait) {
+        size = Size(width, 50);
+      } else {
+        size = Size(width, 32);
+      }
+      // TODO iPad support
+    } else {
+      size = Size(widget.adSize.width, widget.adSize.height);
+    }
+
+    return SizedBox(
+      width: size.width,
+      height: size.height,
+      child: _build(context),
+    );
+  }
+
+  Widget _build(BuildContext context) {
     if (Platform.isAndroid) {
       return AndroidView(
         viewType: 'plugins.ko2ic.com/google_ad_manager/banner',
@@ -149,19 +89,17 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
         onPlatformViewCreated: _onPlatformViewCreated,
       );
     }
-    throw UnsupportedError('Only android and ios are supported.');
+    //throw UnsupportedError('Only android and ios are supported.');
+    return null;
   }
 
   void _onPlatformViewCreated(int id) {
-    if (widget.onPlatformCompleted == null) {
-      return;
-    }
-    widget.onPlatformCompleted(DFPBannerViewController._internal(
+    _controller = DFPBannerViewController._internal(
       isDevelop: widget.isDevelop,
       testDevices: widget.testDevices,
       adUnitId: widget.adUnitId,
       adSize: widget.adSize,
-      isPortrait: widget.isPortrait,
+      isPortrait: _isPortrait ?? true,
       onAdLoaded: widget.onAdLoaded,
       onAdFailedToLoad: widget.onAdFailedToLoad,
       onAdOpened: widget.onAdOpened,
@@ -170,7 +108,16 @@ class _DFPBannerViewState extends State<_DFPBannerView> {
       onAdViewCreated: widget.onAdViewCreated,
       id: id,
       customTargeting: widget.customTargeting,
-    ));
+    );
+    _controller._init();
+
+    if (widget.onAdViewCreated != null) {
+      widget.onAdViewCreated(_controller);
+    }
+  }
+
+  Future<void> reload() {
+    return _controller?.reload();
   }
 }
 
