@@ -206,33 +206,33 @@ class DFPBannerViewController {
 
   final MethodChannel _channel;
 
-  Future<void> _init() async {
-    _channel.setMethodCallHandler((call) {
-      switch (call.method) {
-        case "onAdLoaded":
-          onAdLoaded();
-          break;
-        case "onAdFailedToLoad":
-          var map = call.arguments.cast<String, int>();
-          onAdFailedToLoad(map['errorCode']);
-          break;
-        case "onAdOpened":
-          onAdOpened();
-          break;
-        case "onAdClosed":
-          onAdClosed();
-          break;
-        case "onAdLeftApplication":
-          onAdLeftApplication();
-          break;
-      }
-      return Future.value(null);
-    });
-
+  Future<void> _init() {
+    _channel.setMethodCallHandler(_handler);
     return _load();
   }
 
-  Future<void> reload() async {
+  Future<void> _handler(MethodCall call) {
+    switch (call.method) {
+      case "onAdLoaded":
+        onAdLoaded();
+        break;
+      case "onAdFailedToLoad":
+        var map = call.arguments.cast<String, int>();
+        onAdFailedToLoad(map['errorCode']);
+        break;
+      case "onAdOpened":
+        onAdOpened();
+        break;
+      case "onAdClosed":
+        onAdClosed();
+        break;
+      case "onAdLeftApplication":
+        onAdLeftApplication();
+        break;
+    }
+  }
+
+  Future<void> reload() {
     return _load();
   }
 
