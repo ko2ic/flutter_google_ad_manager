@@ -202,7 +202,7 @@ class DFPBannerViewController {
     this.onAdViewCreated,
     this.customTargeting,
     int id,
-  }) : _channel = new MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
+  }) : _channel = MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
 
   final MethodChannel _channel;
 
