@@ -8,6 +8,7 @@ class DFPInterstitialAd {
 
   final bool isDevelop;
   final String adUnitId;
+  final Map<String, dynamic> customTargeting;
   final void Function() onAdLoaded;
   final void Function(int errorCode) onAdFailedToLoad;
   final void Function() onAdOpened;
@@ -22,6 +23,7 @@ class DFPInterstitialAd {
     this.onAdOpened,
     this.onAdClosed,
     this.onAdLeftApplication,
+    this.customTargeting,
   }) {
     _channel.setMethodCallHandler(_handleEvent);
   }
@@ -53,6 +55,7 @@ class DFPInterstitialAd {
     await _channel.invokeMethod('load', <String, dynamic>{
       'isDevelop': isDevelop,
       'adUnitId': adUnitId,
+      'adUnitId': customTargeting,
     });
   }
 

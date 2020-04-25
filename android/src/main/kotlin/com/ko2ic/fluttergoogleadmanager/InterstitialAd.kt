@@ -23,6 +23,7 @@ class InterstitialAd(registrar: PluginRegistry.Registrar, private val channel: M
 
     private fun load(call: MethodCall, result: MethodChannel.Result) {
         val isDevelop = call.argument<Boolean>("isDevelop") ?: false
+        val arguments: Map<String, Any> = call.arguments()
 
         if (interstitialAd.adUnitId.isNullOrEmpty()) {
             if (isDevelop) {
@@ -32,8 +33,19 @@ class InterstitialAd(registrar: PluginRegistry.Registrar, private val channel: M
             }
             interstitialAd.adListener = InterstitialAdListener(channel)
         }
-        val adRequest = PublisherAdRequest.Builder().build()
-        interstitialAd.loadAd(adRequest)
+       val builder = PublisherAdRequest.Builder()
+        customTargeting?.let {
+            it.entries.forEach { (key, value) ->
+                when (value) {
+                    is String -> builder.addCustomTargeting(key, value)
+                    is List<*> -> builder.addCustomTargeting(key, value.filterIsInstance<String>())
+                    else -> throw IllegalArgumentException("customTargeting: values must be either Strings or Lists of Strings, but got $value")
+                }
+
+            }
+        }
+         val publisherAdRequest = builder.build()
+        interstitialAd.loadAd(publisherAdRequest)
         result.success(null)
     }
 
