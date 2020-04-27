@@ -1,3 +1,8 @@
+## 0.11.0
+
+* Add Custom Targeting to interstitial
+* Support to reload DFPBanner
+
 ## 0.10.1
 
 * Fix to return Future in setMethodCallHandler()
