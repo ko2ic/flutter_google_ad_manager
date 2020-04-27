@@ -301,7 +301,7 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
       case AppLifecycleState.paused:
         await rewardedAd.pause();
         break;
-      case AppLifecycleState.suspending:
+      case AppLifecycleState.detached:
         break;
       case AppLifecycleState.resumed:
         await rewardedAd.resume();

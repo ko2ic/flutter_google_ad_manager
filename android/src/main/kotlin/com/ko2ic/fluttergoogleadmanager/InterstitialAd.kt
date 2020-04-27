@@ -8,7 +8,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 
 class InterstitialAd(registrar: PluginRegistry.Registrar, private val channel: MethodChannel) :
-    MethodChannel.MethodCallHandler {
+        MethodChannel.MethodCallHandler {
 
     private val interstitialAd = PublisherInterstitialAd(registrar.context())
 
@@ -25,6 +25,8 @@ class InterstitialAd(registrar: PluginRegistry.Registrar, private val channel: M
         val isDevelop = call.argument<Boolean>("isDevelop") ?: false
         val arguments: Map<String, Any> = call.arguments()
 
+        val customTargeting = arguments["customTargeting"] as? Map<*, *>
+
         if (interstitialAd.adUnitId.isNullOrEmpty()) {
             if (isDevelop) {
                 interstitialAd.adUnitId = "/6499/example/interstitial"
@@ -33,18 +35,19 @@ class InterstitialAd(registrar: PluginRegistry.Registrar, private val channel: M
             }
             interstitialAd.adListener = InterstitialAdListener(channel)
         }
-       val builder = PublisherAdRequest.Builder()
+        val builder = PublisherAdRequest.Builder()
         customTargeting?.let {
             it.entries.forEach { (key, value) ->
-                when (value) {
-                    is String -> builder.addCustomTargeting(key, value)
-                    is List<*> -> builder.addCustomTargeting(key, value.filterIsInstance<String>())
-                    else -> throw IllegalArgumentException("customTargeting: values must be either Strings or Lists of Strings, but got $value")
+                if (key is String) {
+                    when (value) {
+                        is String -> builder.addCustomTargeting(key, value)
+                        is List<*> -> builder.addCustomTargeting(key, value.filterIsInstance<String>())
+                        else -> throw IllegalArgumentException("customTargeting: values must be either Strings or Lists of Strings, but got $value")
+                    }
                 }
-
             }
         }
-         val publisherAdRequest = builder.build()
+        val publisherAdRequest = builder.build()
         interstitialAd.loadAd(publisherAdRequest)
         result.success(null)
     }
