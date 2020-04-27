@@ -29,6 +29,7 @@ class InterstitialAd: SwiftFlutterGoogleAdManagerPlugin {
     private func load(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let argument = call.arguments as! Dictionary<String, Any>
         let isDevelop = argument["isDevelop"] as? Bool ?? false
+        let customTargeting = argument["customTargeting"] as? [String: Any]
 
         if isDevelop {
             interstitialAd = DFPInterstitial(adUnitID: "/6499/example/interstitial")
@@ -39,6 +40,7 @@ class InterstitialAd: SwiftFlutterGoogleAdManagerPlugin {
         interstitialAd!.delegate = self
 
         let request = DFPRequest()
+        request.customTargeting = customTargeting
         interstitialAd!.load(request)
         result(nil)
     }
