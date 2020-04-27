@@ -1,17 +1,21 @@
 name: flutter_google_ad_manager
 description: Flutter plugin for Google Ad Manager(DoubleClick for Publishers).
 version: 0.11.0
-author: koji ishii <ko2ic.dev@gmail.com>
 homepage: https://github.com/ko2ic/flutter_google_ad_manager
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
-
+  flutter: ^1.10.0
+  
 dependencies:
   flutter:
     sdk: flutter
 
 flutter:
   plugin:
-    androidPackage: com.ko2ic.fluttergoogleadmanager
-    pluginClass: FlutterGoogleAdManagerPlugin
+    platforms:
+      android:
+        package: com.ko2ic.fluttergoogleadmanager
+        pluginClass: FlutterGoogleAdManagerPlugin
+      ios:
+        pluginClass: FlutterGoogleAdManagerPlugin
