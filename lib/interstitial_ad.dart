@@ -55,7 +55,7 @@ class DFPInterstitialAd {
     await _channel.invokeMethod('load', <String, dynamic>{
       'isDevelop': isDevelop,
       'adUnitId': adUnitId,
-      'adUnitId': customTargeting,
+      'customTargeting': customTargeting,
     });
   }
 
