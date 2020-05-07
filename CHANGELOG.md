@@ -1,3 +1,7 @@
+## 0.11.1
+
+* Fix InterstitialAd Duplicate Key
+
 ## 0.11.0
 
 * Add Custom Targeting to interstitial
