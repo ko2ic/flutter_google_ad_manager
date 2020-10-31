@@ -64,7 +64,7 @@ class RewardedAd: SwiftFlutterGoogleAdManagerPlugin {
 extension RewardedAd: GADRewardBasedVideoAdDelegate {
     func rewardBasedVideoAd(_: GADRewardBasedVideoAd,
                             didRewardUserWith reward: GADAdReward) {
-        channel.invokeMethod("onRewarded", arguments: ["yype": reward.type, "amount": reward.amount])
+        channel.invokeMethod("onRewarded", arguments: ["type": reward.type, "amount": reward.amount])
     }
 
     func rewardBasedVideoAdDidReceive(_: GADRewardBasedVideoAd) {
