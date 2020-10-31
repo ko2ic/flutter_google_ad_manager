@@ -13,7 +13,7 @@ class DFPRewardedAd {
   final void Function() onAdOpened;
   final void Function() onAdClosed;
   final void Function() onAdLeftApplication;
-  final void Function(String type, int amount) onRewarded;
+  final void Function(String type, double amount) onRewarded;
   final void Function() onVideoStarted;
   final void Function() onVideoCompleted;
 
@@ -52,7 +52,7 @@ class DFPRewardedAd {
         break;
       case 'onRewarded':
         var type = call.arguments['type'] as String;
-        var amount = call.arguments['amount'] as int;
+        var amount = call.arguments['amount'] as double;
         this.onRewarded(type, amount);
         break;
       case 'onVideoStarted':

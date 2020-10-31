@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
       onAdLeftApplication: () {
         print('rewardedAd onAdLeftApplication');
       },
-      onRewarded: (String type, int amount) {
+      onRewarded: (String type, double amount) {
         print('rewardedAd onRewarded: type:$type amount:$amount');
       },
       onVideoStarted: () {
