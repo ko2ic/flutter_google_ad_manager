@@ -10,5 +10,8 @@ public class SwiftFlutterGoogleAdManagerPlugin: NSObject, FlutterPlugin {
 
         let rewardedChannel = FlutterMethodChannel(name: "plugins.ko2ic.com/google_ad_manager/rewarded", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(RewardedAd(with: registrar, channel: rewardedChannel) as FlutterPlugin, channel: rewardedChannel)
+        
+        let nativeChannel = FlutterMethodChannel(name: "plugins.ko2ic.com/google_ad_manager/native", binaryMessenger: registrar.messenger())
+        registrar.addMethodCallDelegate(NativeAd(with: registrar, channel: nativeChannel) as FlutterPlugin, channel: nativeChannel)
     }
 }

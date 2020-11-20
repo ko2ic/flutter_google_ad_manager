@@ -61,11 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
     _interstitialAd.load();
 
     _nativeAd = DFPNativeAd(
-      isDevelop: true,
+      isDevelop: false,
       adUnitId: "XXXXXXXX",
       templateId: "XXXXXXXX",
       onAdLoaded: () async {
-        print('nativeAd onAdLoaded');        
+        print('nativeAd onAdLoaded');
       },
       onAdFailedToLoad: (errorCode) {
         print('nativeAd onAdFailedToLoad: errorCode:$errorCode');
