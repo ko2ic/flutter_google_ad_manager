@@ -31,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   DFPInterstitialAd _interstitialAd;
   DFPRewardedAd _rewardedAd;
+  DFPNativeAd _nativeAd;
   LifecycleEventHandler _lifecycle;
 
   @override
@@ -58,6 +59,29 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
     _interstitialAd.load();
+
+    _nativeAd = DFPNativeAd(
+      isDevelop: true,
+      adUnitId: "XXXXXXXX",
+      templateId: "XXXXXXXX",
+      onAdLoaded: () async {
+        print('nativeAd onAdLoaded');        
+      },
+      onAdFailedToLoad: (errorCode) {
+        print('nativeAd onAdFailedToLoad: errorCode:$errorCode');
+      },
+      onAdOpened: () {
+        print('nativeAd onAdOpened');
+      },
+      onAdClosed: () {
+        print('nativeAd onAdClosed');
+        _nativeAd.load();
+      },
+      onAdLeftApplication: () {
+        print('nativeAd onAdLeftApplication');
+      },
+    );
+    _nativeAd.load();
 
     _rewardedAd = DFPRewardedAd(
       isDevelop: true,
@@ -133,7 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(DFPAdSize.FULL_BANNER.toString()),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BannerPage(size: DFPAdSize.FULL_BANNER),
+                    builder: (context) =>
+                        BannerPage(size: DFPAdSize.FULL_BANNER),
                   ));
                 },
               ),
@@ -141,7 +166,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(DFPAdSize.LARGE_BANNER.toString()),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BannerPage(size: DFPAdSize.LARGE_BANNER),
+                    builder: (context) =>
+                        BannerPage(size: DFPAdSize.LARGE_BANNER),
                   ));
                 },
               ),
@@ -149,7 +175,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(DFPAdSize.LEADERBOARD.toString()),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BannerPage(size: DFPAdSize.LEADERBOARD),
+                    builder: (context) =>
+                        BannerPage(size: DFPAdSize.LEADERBOARD),
                   ));
                 },
               ),
@@ -157,7 +184,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(DFPAdSize.MEDIUM_RECTANGLE.toString()),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BannerPage(size: DFPAdSize.MEDIUM_RECTANGLE),
+                    builder: (context) =>
+                        BannerPage(size: DFPAdSize.MEDIUM_RECTANGLE),
                   ));
                 },
               ),
@@ -165,7 +193,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(DFPAdSize.SMART_BANNER.toString()),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BannerPage(size: DFPAdSize.SMART_BANNER),
+                    builder: (context) =>
+                        BannerPage(size: DFPAdSize.SMART_BANNER),
                   ));
                 },
               ),
@@ -173,7 +202,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('custom'),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => BannerPage(size: DFPAdSize.custom(width: 200.5, height: 200.5)),
+                    builder: (context) => BannerPage(
+                        size: DFPAdSize.custom(width: 200.5, height: 200.5)),
                   ));
                 },
               ),
@@ -203,6 +233,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('Show Rewarded'),
                 onPressed: () {
                   _rewardedAd.show();
+                },
+              ),
+              Text(
+                'Native',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              RaisedButton(
+                child: Text('Show native'),
+                onPressed: () {
+                  _nativeAd.performClickAction("CallToAction");
                 },
               ),
               /*ListView.builder(
