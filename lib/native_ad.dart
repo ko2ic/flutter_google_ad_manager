@@ -95,30 +95,14 @@ class DFPNativeAd {
     });
   }
 
+  // Perform the default click action of the asset also recording the click
   Future<void> performClickAction(String parameter) async {
     await _channel.invokeMethod(
         'performClick', <String, dynamic>{'parameter': parameter});
   }
 
-  /// Display Rewarded Video advertisements.
-  Future<void> show() {
-    return _channel.invokeMethod('show', <String, dynamic>{});
-  }
-
-  /// Pause Rewarded Video advertisements.
-  /// only android.
-  Future<void> pause() {
-    return _channel.invokeMethod('pause', <String, dynamic>{});
-  }
-
-  /// Resume Rewarded Video advertisements.
-  /// only android.
-  Future<void> resume() {
-    return _channel.invokeMethod('resume', <String, dynamic>{});
-  }
-
-  /// Dispose Rewarded Video advertisements.
-  Future<void> dispose() {
-    return _channel.invokeMethod('dispose', <String, dynamic>{});
-  }
+  // Dispose Native advertisements.
+   Future<void> dispose() {
+     return _channel.invokeMethod('dispose', <String, dynamic>{});
+   }
 }

@@ -123,6 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
     WidgetsBinding.instance.removeObserver(_lifecycle);
     _interstitialAd.dispose();
     _rewardedAd.dispose();
+    _nativeAd.dispose();
     super.dispose();
   }
 
