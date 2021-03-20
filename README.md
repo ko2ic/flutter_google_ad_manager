@@ -9,12 +9,15 @@ Flutter plugin for Google Ad Manager(DoubleClick for Publishers).
 
 ### ios
 
-Add ```io.flutter.embedded_views_preview``` in info.plist
+Add ```io.flutter.embedded_views_preview``` in info.plist and ```GADIsAdManagerApp```
 
 ```
 <key>io.flutter.embedded_views_preview</key>
 <true/>
+<key>GADIsAdManagerApp</key>
+<true/>
 ```
+
 
 Follow any additional instructions found here
 
@@ -102,8 +105,8 @@ DFPBanner(
 
 ## About testDevices
 
-If you set ```isDevelop``` to true, the test adUnitId will be used.   
-( If set false, the described ```adUnitId``` is used.)    
+If you set ```isDevelop``` to true, the test adUnitId will be used.
+( If set false, the described ```adUnitId``` is used.)
 Google Ad Manger needs to register ```testDevices``` in case of actual devices.
 
 With this plug-in, you can create the following class and set it to testDevices of DFPBanner.
@@ -145,7 +148,7 @@ Other custom is also available.
 
 ```const DFPAdSize.custom({double width, double height})```.
 
-Note: In case of Android, ```DFPAdSize.custom()``` will be toInt () instead of double because AdSize class constructor of Google Ad Manager SDK is only int. 
+Note: In case of Android, ```DFPAdSize.custom()``` will be toInt () instead of double because AdSize class constructor of Google Ad Manager SDK is only int.
 
 ## About EventListener
 
@@ -154,7 +157,7 @@ The following event listeners are available:
 * onAdFailedToLoad
 * onAdOpened
 * onAdClosed
-* onAdLeftApplication 
+* onAdLeftApplication
 
 # Interstitial Ads
 
@@ -203,8 +206,8 @@ await interstitialAd.show();
 
 ## About isDevelop
 
-If you set ```isDevelop``` to true, the test adUnitId will be used.   
-( If set false, the described ```adUnitId``` is used.)  
+If you set ```isDevelop``` to true, the test adUnitId will be used.
+( If set false, the described ```adUnitId``` is used.)
 
 ## About EventListener
 
@@ -301,8 +304,8 @@ class LifecycleEventHandler extends WidgetsBindingObserver {
 
 ## About isDevelop
 
-If you set ```isDevelop``` to true, the test adUnitId will be used.   
-( If set false, the described ```adUnitId``` is used.)  
+If you set ```isDevelop``` to true, the test adUnitId will be used.
+( If set false, the described ```adUnitId``` is used.)
 
 ## About EventListener
 
@@ -318,5 +321,5 @@ The following event listeners are available:
 
 # Native Ads
 
-Not implemented.   
+Not implemented.
 I am glad if someone will give me a pull request.
