@@ -32,9 +32,16 @@ class InterstitialAd: SwiftFlutterGoogleAdManagerPlugin {
     private func load(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let argument = call.arguments as! Dictionary<String, Any>
         let isDevelop = argument["isDevelop"] as? Bool ?? false
+        let customTargeting = argument["customTargeting"] as? [String: String]
 
         let adUnitId = argument["adUnitId"] as? String
-        loadInterstitial(unitId: isDevelop ? exampleInterstitalAd : adUnitId, result: result)
+        
+        let request = GAMRequest()
+        if let targets = customTargeting {
+            request.customTargeting = targets
+        }
+        
+        loadInterstitial(unitId: isDevelop ? exampleInterstitalAd : adUnitId, result: result,request:request)
 
     }
 
@@ -52,10 +59,10 @@ class InterstitialAd: SwiftFlutterGoogleAdManagerPlugin {
         interstitial.present(fromRootViewController: rootViewController)
     }
 
-    private func loadInterstitial(unitId: String?, result: @escaping FlutterResult) {
+    private func loadInterstitial(unitId: String?, result: @escaping FlutterResult,request: GAMRequest) {
         GAMInterstitialAd.load(
             withAdManagerAdUnitID: unitId ?? "",
-            request: GAMRequest()
+            request: request
         ) { (ad, error) in
             if let _ = error {
                 result(FlutterError.errorLoadUnitId)

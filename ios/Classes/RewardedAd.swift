@@ -38,11 +38,13 @@ class RewardedAd: SwiftFlutterGoogleAdManagerPlugin {
     private func load(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let argument = call.arguments as! Dictionary<String, Any>
         let isDevelop = argument["isDevelop"] as? Bool ?? false
-
-
         let unitId: String? = isDevelop ? exampleReward : argument["adUnitId"] as? String
+        
+        let request = GAMRequest()
+        
+        
         GADRewardedAd.load(
-            withAdUnitID: unitId ?? "", request: GAMRequest()
+            withAdUnitID: unitId ?? "", request: request
         ) { (ad, error) in
             if let error = error {
                 print("Rewarded ad failed to load with error: \(error.localizedDescription)")

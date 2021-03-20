@@ -43,11 +43,18 @@ class BannerView: NSObject, FlutterPlatformView {
         let widthsArgument = argument["widths"] as! [Double]
         let heightsArgument = argument["heights"] as! [Double]
         let isPortrait = argument["isPortrait"] as? Bool ?? true
-
+        let testDevices = argument["testDevices"] as? [String]
         let adSize = convertToAdSizes(adSizesArgument, widths: widthsArgument, heights: heightsArgument, isPortrait: isPortrait, result: result).first!
         let adUnitId = argument["adUnitId"] as? String
+        let customTargeting = argument["customTargeting"] as? [String: String]
+        let request = GAMRequest()
 
-        if loadBanner(adSize: adSize, adUnitId: isDevelop ? exampleBanner : adUnitId) {
+        if let targets = customTargeting {
+            request.customTargeting = targets
+        }
+
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = testDevices
+        if loadBanner(adSize: adSize, adUnitId: isDevelop ? exampleBanner : adUnitId, request: request) {
             result(nil)
         } else {
             result(FlutterError.controllerError)
@@ -57,65 +64,67 @@ class BannerView: NSObject, FlutterPlatformView {
     }
 
 
-    func loadBanner(adSize: GADAdSize, adUnitId: String?) -> Bool {
+    func loadBanner(adSize: GADAdSize, adUnitId: String?, request: GAMRequest) -> Bool {
 
         guard let rootViewController = UIApplication.shared.delegate?.window??.rootViewController else {
             return false
         }
         let bannerView = GAMBannerView(adSize: adSize)
+        print(adUnitId)
         bannerView.adUnitID = adUnitId
         bannerView.rootViewController = rootViewController
-        bannerView.load(GAMRequest())
-        return true
-    }
+        addBannerViewToView(bannerView)
+        bannerView.load(request)
+    return true
+}
 
-    private func addBannerViewToView(_ bannerView: GAMBannerView) {
-        container.addSubview(bannerView)
+private func addBannerViewToView(_ bannerView: GAMBannerView) {
+    container.addSubview(bannerView)
 
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        container.addConstraints([NSLayoutConstraint(item: bannerView,
-                                                     attribute: .centerX,
-                                                     relatedBy: .equal,
-                                                     toItem: container,
-                                                     attribute: .centerX,
-                                                     multiplier: 1,
-                                                     constant: 0),
-                                  NSLayoutConstraint(item: bannerView,
-                                                     attribute: .centerY,
-                                                     relatedBy: .equal,
-                                                     toItem: container,
-                                                     attribute: .centerY,
-                                                     multiplier: 1,
-                                                     constant: 0)])
-    }
+    bannerView.translatesAutoresizingMaskIntoConstraints = false
+    container.addConstraints([NSLayoutConstraint(item: bannerView,
+                                                 attribute: .centerX,
+                                                 relatedBy: .equal,
+                                                 toItem: container,
+                                                 attribute: .centerX,
+                                                 multiplier: 1,
+                                                 constant: 0),
+                              NSLayoutConstraint(item: bannerView,
+                                                 attribute: .centerY,
+                                                 relatedBy: .equal,
+                                                 toItem: container,
+                                                 attribute: .centerY,
+                                                 multiplier: 1,
+                                                 constant: 0)])
+}
 
-    private func convertToAdSizes(_ names: [String], widths: [Double], heights: [Double], isPortrait: Bool, result: @escaping FlutterResult) -> [GADAdSize] {
-        return names.enumerated().map { (index: Int, name: String) -> GADAdSize in
-            switch name {
-            case "BANNER":
-                return kGADAdSizeBanner
-            case "FULL_BANNER":
-                return kGADAdSizeFullBanner
-            case "LARGE_BANNER":
-                return kGADAdSizeLargeBanner
-            case "LEADERBOARD":
-                return kGADAdSizeLeaderboard
-            case "MEDIUM_RECTANGLE":
-                return kGADAdSizeMediumRectangle
-            case "SMART_BANNER":
-                if isPortrait {
-                    return kGADAdSizeSmartBannerPortrait
-                } else {
-                    return kGADAdSizeSmartBannerLandscape
-                }
-            case "CUSTOM":
-                return GADAdSizeFromCGSize(CGSize(width: widths[index], height: heights[index]))
-            default:
-                result(FlutterError(code: "illegal_argument", message: "\(name) is unsupported.", details: nil))
-                return GADAdSizeFromCGSize(CGSize(width: 0, height: 0))
+private func convertToAdSizes(_ names: [String], widths: [Double], heights: [Double], isPortrait: Bool, result: @escaping FlutterResult) -> [GADAdSize] {
+    return names.enumerated().map { (index: Int, name: String) -> GADAdSize in
+        switch name {
+        case "BANNER":
+            return kGADAdSizeBanner
+        case "FULL_BANNER":
+            return kGADAdSizeFullBanner
+        case "LARGE_BANNER":
+            return kGADAdSizeLargeBanner
+        case "LEADERBOARD":
+            return kGADAdSizeLeaderboard
+        case "MEDIUM_RECTANGLE":
+            return kGADAdSizeMediumRectangle
+        case "SMART_BANNER":
+            if isPortrait {
+                return kGADAdSizeSmartBannerPortrait
+            } else {
+                return kGADAdSizeSmartBannerLandscape
             }
+        case "CUSTOM":
+            return GADAdSizeFromCGSize(CGSize(width: widths[index], height: heights[index]))
+        default:
+            result(FlutterError(code: "illegal_argument", message: "\(name) is unsupported.", details: nil))
+            return GADAdSizeFromCGSize(CGSize(width: 0, height: 0))
         }
     }
+}
 }
 
 extension BannerView: GADBannerViewDelegate {
