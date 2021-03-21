@@ -12,27 +12,27 @@ class DFPBanner extends StatefulWidget {
   final bool isDevelop;
 
   /// In the case of the test mode, the class that holds the test device id for display on the real device.
-  final TestDevices testDevices;
+  final TestDevices? testDevices;
 
   final String adUnitId;
   final DFPAdSize adSize;
-  final Map<String, dynamic> customTargeting;
+  final Map<String, dynamic>? customTargeting;
 
-  final void Function() onAdLoaded;
-  final void Function(int errorCode) onAdFailedToLoad;
-  final void Function(DFPBannerViewController controller) onAdViewCreated;
+  final void Function()? onAdLoaded;
+  final void Function(int? errorCode)? onAdFailedToLoad;
+  final void Function(DFPBannerViewController? controller)? onAdViewCreated;
 
   /// only android
-  final void Function() onAdOpened;
-  final void Function() onAdClosed;
-  final void Function() onAdLeftApplication;
+  final void Function()? onAdOpened;
+  final void Function()? onAdClosed;
+  final void Function()? onAdLeftApplication;
 
   DFPBanner({
-    Key key,
-    @required this.isDevelop,
+    Key? key,
+    required this.isDevelop,
     this.testDevices,
-    @required this.adUnitId,
-    @required this.adSize,
+    required this.adUnitId,
+    required this.adSize,
     this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdOpened,
@@ -49,9 +49,9 @@ class DFPBanner extends StatefulWidget {
 }
 
 class DFPBannerState extends State<DFPBanner> {
-  DFPBannerViewController _controller;
+  DFPBannerViewController? _controller;
 
-  bool _isPortrait;
+  bool? _isPortrait;
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +60,14 @@ class DFPBannerState extends State<DFPBanner> {
     Size size;
     if (widget.adSize.width == DFPAdSize.FULL_WIDTH) {
       final width = MediaQuery.of(context).size.width;
-      if (_isPortrait) {
+      if (_isPortrait!) {
         size = Size(width, 50);
       } else {
         size = Size(width, 32);
       }
       // TODO iPad support
     } else {
-      size = Size(widget.adSize.width, widget.adSize.height);
+      size = Size(widget.adSize.width!, widget.adSize.height!);
     }
 
     return SizedBox(
@@ -77,7 +77,7 @@ class DFPBannerState extends State<DFPBanner> {
     );
   }
 
-  Widget _build(BuildContext context) {
+  Widget? _build(BuildContext context) {
     if (Platform.isAndroid) {
       return AndroidView(
         viewType: 'plugins.ko2ic.com/google_ad_manager/banner',
@@ -109,38 +109,38 @@ class DFPBannerState extends State<DFPBanner> {
       id: id,
       customTargeting: widget.customTargeting,
     );
-    _controller._init();
+    _controller!._init();
 
     if (widget.onAdViewCreated != null) {
-      widget.onAdViewCreated(_controller);
+      widget.onAdViewCreated!(_controller);
     }
   }
 
-  Future<void> reload() {
+  Future<void>? reload() {
     return _controller?.reload();
   }
 }
 
 class DFPBannerViewController {
   final bool isDevelop;
-  final TestDevices testDevices;
+  final TestDevices? testDevices;
   final String adUnitId;
   final DFPAdSize adSize;
   final bool isPortrait;
-  final void Function() onAdLoaded;
-  final void Function(int errorCode) onAdFailedToLoad;
-  final void Function() onAdOpened;
-  final void Function() onAdClosed;
-  final void Function() onAdLeftApplication;
-  final void Function(DFPBannerViewController controller) onAdViewCreated;
-  final Map<String, dynamic> customTargeting;
+  final void Function()? onAdLoaded;
+  final void Function(int? errorCode)? onAdFailedToLoad;
+  final void Function()? onAdOpened;
+  final void Function()? onAdClosed;
+  final void Function()? onAdLeftApplication;
+  final void Function(DFPBannerViewController controller)? onAdViewCreated;
+  final Map<String, dynamic>? customTargeting;
 
   DFPBannerViewController._internal({
-    @required this.isDevelop,
+    required this.isDevelop,
     this.testDevices,
-    @required this.adUnitId,
-    @required this.adSize,
-    @required this.isPortrait,
+    required this.adUnitId,
+    required this.adSize,
+    required this.isPortrait,
     this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdOpened,
@@ -148,7 +148,7 @@ class DFPBannerViewController {
     this.onAdLeftApplication,
     this.onAdViewCreated,
     this.customTargeting,
-    int id,
+    int? id,
   }) : _channel = MethodChannel('plugins.ko2ic.com/google_ad_manager/banner/$id');
 
   final MethodChannel _channel;
@@ -158,23 +158,23 @@ class DFPBannerViewController {
     return _load();
   }
 
-  Future<void> _handler(MethodCall call) {
+  Future<void> _handler(MethodCall call) async {
     switch (call.method) {
       case "onAdLoaded":
-        onAdLoaded();
+        onAdLoaded!();
         break;
       case "onAdFailedToLoad":
         var map = call.arguments.cast<String, int>();
-        onAdFailedToLoad(map['errorCode']);
+        onAdFailedToLoad!(map['errorCode']);
         break;
       case "onAdOpened":
-        onAdOpened();
+        onAdOpened!();
         break;
       case "onAdClosed":
-        onAdClosed();
+        onAdClosed!();
         break;
       case "onAdLeftApplication":
-        onAdLeftApplication();
+        onAdLeftApplication!();
         break;
     }
   }
