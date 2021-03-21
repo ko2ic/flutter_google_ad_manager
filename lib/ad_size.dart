@@ -1,8 +1,8 @@
 /// Banner Size of Google Ad Manger.
 class DFPAdSize {
   final String _value;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
 
   const DFPAdSize.custom({double width = 320, double height = 50})
       : this._internal("CUSTOM", width: width, height: height);

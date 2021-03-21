@@ -8,16 +8,16 @@ class DFPInterstitialAd {
 
   final bool isDevelop;
   final String adUnitId;
-  final Map<String, dynamic> customTargeting;
-  final void Function() onAdLoaded;
-  final void Function(int errorCode) onAdFailedToLoad;
-  final void Function() onAdOpened;
-  final void Function() onAdClosed;
-  final void Function() onAdLeftApplication;
+  final Map<String, dynamic>? customTargeting;
+  final void Function()? onAdLoaded;
+  final void Function(int? errorCode)? onAdFailedToLoad;
+  final void Function()? onAdOpened;
+  final void Function()? onAdClosed;
+  final void Function()? onAdLeftApplication;
 
   DFPInterstitialAd({
-    @required this.isDevelop,
-    @required this.adUnitId,
+    required this.isDevelop,
+    required this.adUnitId,
     this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdOpened,
@@ -25,26 +25,26 @@ class DFPInterstitialAd {
     this.onAdLeftApplication,
     this.customTargeting,
   }) {
-    _channel.setMethodCallHandler(_handleEvent);
+    _channel.setMethodCallHandler(_handleEvent as Future<dynamic> Function(MethodCall)?);
   }
 
-  Future<dynamic> _handleEvent(MethodCall call) {
+  Future<dynamic>? _handleEvent(MethodCall call) {
     switch (call.method) {
       case 'onAdLoaded':
-        this.onAdLoaded();
+        this.onAdLoaded!();
         break;
       case 'onAdFailedToLoad':
-        var errorCode = call.arguments['errorCode'] as int;
-        this.onAdFailedToLoad(errorCode);
+        var errorCode = call.arguments['errorCode'] as int?;
+        this.onAdFailedToLoad!(errorCode);
         break;
       case 'onAdOpened':
-        this.onAdOpened();
+        this.onAdOpened!();
         break;
       case 'onAdClosed':
-        this.onAdClosed();
+        this.onAdClosed!();
         break;
       case 'onAdLeftApplication':
-        this.onAdLeftApplication();
+        this.onAdLeftApplication!();
         break;
     }
     return null;
