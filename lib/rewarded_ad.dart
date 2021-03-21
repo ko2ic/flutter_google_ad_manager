@@ -8,18 +8,18 @@ class DFPRewardedAd {
 
   final bool isDevelop;
   final String adUnitId;
-  final void Function()? onAdLoaded;
-  final void Function(int? errorCode)? onAdFailedToLoad;
-  final void Function()? onAdOpened;
-  final void Function()? onAdClosed;
-  final void Function()? onAdLeftApplication;
-  final void Function(String? type, int? amount)? onRewarded;
-  final void Function()? onVideoStarted;
-  final void Function()? onVideoCompleted;
+  final void Function() onAdLoaded;
+  final void Function(int errorCode) onAdFailedToLoad;
+  final void Function() onAdOpened;
+  final void Function() onAdClosed;
+  final void Function() onAdLeftApplication;
+  final void Function(String type, int amount) onRewarded;
+  final void Function() onVideoStarted;
+  final void Function() onVideoCompleted;
 
   DFPRewardedAd({
-    required this.isDevelop,
-    required this.adUnitId,
+    @required this.isDevelop,
+    @required this.adUnitId,
     this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdOpened,
@@ -29,37 +29,37 @@ class DFPRewardedAd {
     this.onVideoStarted,
     this.onVideoCompleted,
   }) {
-    _channel.setMethodCallHandler(_handleEvent as Future<dynamic> Function(MethodCall)?);
+    _channel.setMethodCallHandler(_handleEvent);
   }
 
-  Future<dynamic>? _handleEvent(MethodCall call) {
+  Future<dynamic> _handleEvent(MethodCall call) {
     switch (call.method) {
       case 'onAdLoaded':
-        this.onAdLoaded!();
+        this.onAdLoaded();
         break;
       case 'onAdFailedToLoad':
-        var errorCode = call.arguments['errorCode'] as int?;
-        this.onAdFailedToLoad!(errorCode);
+        var errorCode = call.arguments['errorCode'] as int;
+        this.onAdFailedToLoad(errorCode);
         break;
       case 'onAdOpened':
-        this.onAdOpened!();
+        this.onAdOpened();
         break;
       case 'onAdClosed':
-        this.onAdClosed!();
+        this.onAdClosed();
         break;
       case 'onAdLeftApplication':
-        this.onAdLeftApplication!();
+        this.onAdLeftApplication();
         break;
       case 'onRewarded':
-        var type = call.arguments['type'] as String?;
-        var amount = call.arguments['amount'] as int?;
-        this.onRewarded!(type, amount);
+        var type = call.arguments['type'] as String;
+        var amount = call.arguments['amount'] as int;
+        this.onRewarded(type, amount);
         break;
       case 'onVideoStarted':
-        this.onVideoStarted!();
+        this.onVideoStarted();
         break;
       case 'onVideoCompleted':
-        this.onVideoCompleted!();
+        this.onVideoCompleted();
         break;
     }
     return null;
