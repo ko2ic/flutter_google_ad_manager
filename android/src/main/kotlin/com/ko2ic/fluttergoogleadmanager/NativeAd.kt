@@ -57,6 +57,7 @@ class NativeAd(private val registrar: PluginRegistry.Registrar, private val chan
         val parameter = call.argument<String>("parameter")
         if (parameter != null) {
             ad.performClick(parameter)
+            result.success(null)
         } else {
             result.error("MISSING_PARAMETER", "You must specify the parameter to perform this action", null)
         }
