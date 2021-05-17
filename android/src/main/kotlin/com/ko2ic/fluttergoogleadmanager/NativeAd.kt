@@ -41,9 +41,21 @@ class NativeAd(private val registrar: PluginRegistry.Registrar, private val chan
                                 this.ad.recordImpression()
                             }, null)
         }
+        val adRequestBuilder = PublisherAdRequest.Builder()
+        val customTargeting = call.argument("customTargeting") as? Map<String, Any>
+
+        customTargeting?.let {
+            it.entries.forEach { (key, value) ->
+                when(value){
+                    is String -> adRequestBuilder.addCustomTargeting(key, value)
+                    is List<*> -> adRequestBuilder.addCustomTargeting(key, value.filterIsInstance<String>())
+                    else -> throw IllegalArgumentException("customTargeting: values must be either Strings or Lists of Strings, but got $value")
+                }
+            }
+        }
         val adLoader = builder.withAdListener(NativeAdListener(channel))
                 .build()
-        adLoader.loadAd(PublisherAdRequest.Builder().build())
+        adLoader.loadAd(adRequestBuilder.build())
 
         result.success(null)
     }

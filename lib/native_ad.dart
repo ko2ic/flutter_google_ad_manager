@@ -10,6 +10,9 @@ class DFPNativeAd {
   final bool isDevelop;
   final String adUnitId;
   final String templateId;
+
+  final Map<String, dynamic> customTargeting;
+
   final void Function() onAdLoaded;
   final void Function(int errorCode) onAdFailedToLoad;
   final void Function() onAdOpened;
@@ -23,6 +26,7 @@ class DFPNativeAd {
     @required this.isDevelop,
     @required this.adUnitId,
     @required this.templateId,
+    this.customTargeting,
     this.onAdLoaded,
     this.onAdFailedToLoad,
     this.onAdOpened,
@@ -74,6 +78,7 @@ class DFPNativeAd {
       'isDevelop': isDevelop,
       'adUnitId': adUnitId,
       'templateId': templateId,
+      'customTargeting': customTargeting,
     });
   }
 

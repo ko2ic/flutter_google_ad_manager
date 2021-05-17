@@ -52,8 +52,6 @@ class NativeAd: SwiftFlutterGoogleAdManagerPlugin {
             
             adLoader = GADAdLoader(
                 adUnitID: adUnit, rootViewController: viewController, adTypes: [ GADAdLoaderAdType.nativeCustomTemplate ], options: [])
-            adLoader.delegate = self
-            adLoader.load(DFPRequest())
         }else{
             let adUnit = argument["adUnitId"] as? String ?? ""
             self.templateId = argument["templateId"] as? String ?? ""
@@ -61,9 +59,13 @@ class NativeAd: SwiftFlutterGoogleAdManagerPlugin {
             adLoader = GADAdLoader(
                 adUnitID: adUnit, rootViewController: viewController, adTypes: [ GADAdLoaderAdType.nativeCustomTemplate ], options: [])
         }
+        let customTargeting = argument["customTargeting"] as? [String: Any]
+        let request = DFPRequest()
+        
+        request.customTargeting = customTargeting
         
         adLoader.delegate = self
-        adLoader.load(DFPRequest())
+        adLoader.load(request)
         
         result(nil)
     }
