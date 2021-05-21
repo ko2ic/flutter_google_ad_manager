@@ -20,6 +20,10 @@ class FlutterGoogleAdManagerPlugin {
             val rewardedChannel =
                 MethodChannel(registrar.messenger(), "plugins.ko2ic.com/google_ad_manager/rewarded")
             rewardedChannel.setMethodCallHandler(RewardedAd(registrar, rewardedChannel))
+
+            val nativeChannel =
+                MethodChannel(registrar.messenger(), "plugins.ko2ic.com/google_ad_manager/native")
+            nativeChannel.setMethodCallHandler(NativeAd(registrar, nativeChannel))
         }
     }
 }
